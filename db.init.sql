@@ -17,10 +17,10 @@ CREATE TABLE users (
   -- Metadata
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW(),
-  
-  -- Indexes
-  INDEX idx_telegram_chat_id (telegram_chat_id)
+
 );
+-- Create index separately
+CREATE INDEX idx_telegram_chat_id ON users (telegram_chat_id);
 
 -- Main dumps table
 CREATE TABLE dumps (
@@ -61,12 +61,12 @@ CREATE TABLE dumps (
   updated_at TIMESTAMP DEFAULT NOW(),
   last_active_at TIMESTAMP,
   
-  -- Indexes
-  INDEX idx_user_id (user_id),
-  INDEX idx_category (category),
-  INDEX idx_created_at (created_at),
-  INDEX idx_status (status)
 );
+-- Create index separately
+CREATE INDEX INDEX idx_user_id ON dumps (user_id);
+CREATE INDEX INDEX idx_category ON dumps (category);
+CREATE INDEX INDEX idx_created_at ON dumps (created_at);
+CREATE INDEX INDEX idx_status ON dumps (status);
 
 -- Reminders table
 CREATE TABLE reminders (
@@ -82,9 +82,10 @@ CREATE TABLE reminders (
   
   created_at TIMESTAMP DEFAULT NOW(),
   
-  INDEX idx_reminder_time (reminder_time),
-  INDEX idx_status (status)
 );
+-- Create index separately
+CREATE INDEX INDEX idx_reminder_time ON reminders (reminder_time);
+CREATE INDEX INDEX idx_status ON reminders (status);
 
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column() RETURNS TRIGGER AS $$
