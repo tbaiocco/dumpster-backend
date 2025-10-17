@@ -3,7 +3,7 @@
 CREATE EXTENSION IF NOT EXISTS vector;
 
 -- Users table (add this first)
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY, -- Telegram user_id or phone number
   name TEXT,
   telegram_chat_id BIGINT,
@@ -20,10 +20,10 @@ CREATE TABLE users (
 
 );
 -- Create index separately
-CREATE INDEX idx_telegram_chat_id ON users (telegram_chat_id);
+CREATE INDEX IF NOT EXISTS idx_telegram_chat_id ON users (telegram_chat_id);
 
 -- Main dumps table
-CREATE TABLE dumps (
+CREATE TABLE IF NOT EXISTS dumps (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id TEXT NOT NULL REFERENCES users(id),
   content TEXT NOT NULL,
@@ -63,13 +63,13 @@ CREATE TABLE dumps (
   
 );
 -- Create index separately
-CREATE INDEX idx_user_id ON dumps (user_id);
-CREATE INDEX idx_category ON dumps (category);
-CREATE INDEX idx_created_at ON dumps (created_at);
-CREATE INDEX idx_status ON dumps (status);
+CREATE INDEX IF NOT EXISTS idx_user_id ON dumps (user_id);
+CREATE INDEX IF NOT EXISTS idx_category ON dumps (category);
+CREATE INDEX IF NOT EXISTS idx_created_at ON dumps (created_at);
+CREATE INDEX IF NOT EXISTS idx_status ON dumps (status);
 
 -- Reminders table
-CREATE TABLE reminders (
+CREATE TABLE IF NOT EXISTS reminders (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   dump_id UUID REFERENCES dumps(id) ON DELETE CASCADE,
   user_id TEXT NOT NULL REFERENCES users(id),
@@ -84,8 +84,8 @@ CREATE TABLE reminders (
   
 );
 -- Create index separately
-CREATE INDEX idx_reminder_time ON reminders (reminder_time);
-CREATE INDEX idx_status ON reminders (status);
+CREATE INDEX IF NOT EXISTS idx_reminder_time ON reminders (reminder_time);
+CREATE INDEX IF NOT EXISTS idx_status ON reminders (status);
 
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column() RETURNS TRIGGER AS $$
