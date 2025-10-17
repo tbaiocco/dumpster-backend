@@ -1,4 +1,4 @@
- Documents\personal\dumpster\backend\db.init.sql
+
 -- Enable pgvector extension for semantic search
 CREATE EXTENSION IF NOT EXISTS vector;
 
@@ -16,7 +16,7 @@ CREATE TABLE users (
   
   -- Metadata
   created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
 
 );
 -- Create index separately
@@ -59,14 +59,14 @@ CREATE TABLE dumps (
   -- Metadata
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW(),
-  last_active_at TIMESTAMP,
+  last_active_at TIMESTAMP
   
 );
 -- Create index separately
-CREATE INDEX INDEX idx_user_id ON dumps (user_id);
-CREATE INDEX INDEX idx_category ON dumps (category);
-CREATE INDEX INDEX idx_created_at ON dumps (created_at);
-CREATE INDEX INDEX idx_status ON dumps (status);
+CREATE INDEX idx_user_id ON dumps (user_id);
+CREATE INDEX idx_category ON dumps (category);
+CREATE INDEX idx_created_at ON dumps (created_at);
+CREATE INDEX idx_status ON dumps (status);
 
 -- Reminders table
 CREATE TABLE reminders (
@@ -80,12 +80,12 @@ CREATE TABLE reminders (
   status TEXT DEFAULT 'pending', -- 'pending', 'sent', 'snoozed'
   sent_at TIMESTAMP,
   
-  created_at TIMESTAMP DEFAULT NOW(),
+  created_at TIMESTAMP DEFAULT NOW()
   
 );
 -- Create index separately
-CREATE INDEX INDEX idx_reminder_time ON reminders (reminder_time);
-CREATE INDEX INDEX idx_status ON reminders (status);
+CREATE INDEX idx_reminder_time ON reminders (reminder_time);
+CREATE INDEX idx_status ON reminders (status);
 
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column() RETURNS TRIGGER AS $$
