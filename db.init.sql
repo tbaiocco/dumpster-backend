@@ -87,13 +87,12 @@ CREATE TABLE reminders (
 );
 
 -- Function to update updated_at timestamp
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $
+CREATE OR REPLACE FUNCTION update_updated_at_column() RETURNS TRIGGER AS $$
 BEGIN
-  NEW.updated_at = NOW();
+  NEW.updated_at := NOW();
   RETURN NEW;
 END;
-$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 -- Triggers for updated_at
 CREATE TRIGGER update_dumps_updated_at BEFORE UPDATE ON dumps
